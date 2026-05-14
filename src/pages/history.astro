@@ -1,0 +1,167 @@
+---
+---
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Match History | Mona Mayhem</title>
+    <style>
+      body {
+        font-family: system-ui, sans-serif;
+        margin: 0;
+        padding: 2rem;
+        background: #0a0a12;
+        color: #f8f8ff;
+      }
+
+      a {
+        color: #7df5ff;
+        text-decoration: none;
+      }
+
+      h1 {
+        margin-top: 0;
+      }
+
+      .history-page {
+        max-width: 900px;
+        margin: 0 auto;
+      }
+
+      .summary {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 1rem;
+        margin-bottom: 1.5rem;
+      }
+
+      .summary span {
+        display: block;
+        font-size: 1.5rem;
+        font-weight: 700;
+      }
+
+      .controls {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.75rem;
+        margin-bottom: 1.5rem;
+        align-items: center;
+      }
+
+      .controls input {
+        flex: 1 1 220px;
+        min-width: 200px;
+        padding: 0.75rem 0.9rem;
+        border-radius: 0.75rem;
+        border: 1px solid #3a3a5e;
+        background: #111127;
+        color: #f8f8ff;
+      }
+
+      .controls button {
+        padding: 0.75rem 1rem;
+        border: none;
+        border-radius: 0.75rem;
+        cursor: pointer;
+        background: #4062ff;
+        color: white;
+        transition: transform 0.15s ease, background 0.15s ease;
+      }
+
+      .controls button:hover {
+        transform: translateY(-1px);
+      }
+
+      .controls button#clear-history {
+        background: #ff4d4d;
+      }
+
+      .history-table {
+        width: 100%;
+        border-collapse: collapse;
+        overflow: hidden;
+        border-radius: 1rem;
+        background: #10102a;
+      }
+
+      .history-table th,
+      .history-table td {
+        padding: 1rem;
+        text-align: left;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      }
+
+      .history-table th {
+        font-size: 0.95rem;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        color: #a4a4ff;
+      }
+
+      .history-table tr.win {
+        background: rgba(96, 187, 103, 0.15);
+      }
+
+      .history-table tr.loss {
+        background: rgba(255, 92, 92, 0.15);
+      }
+
+      .history-table tr.win td {
+        color: #dbffdf;
+      }
+
+      .history-table tr.loss td {
+        color: #ffe8e8;
+      }
+
+      .empty-state {
+        padding: 2rem;
+        color: #a2a2c7;
+        text-align: center;
+      }
+    </style>
+  </head>
+  <body>
+    <main class="history-page">
+      <a href="/">← Back to Battle</a>
+      <h1>Match History</h1>
+
+      <section class="summary">
+        <div>
+          <strong>Wins</strong>
+          <span id="wins-count">0</span>
+        </div>
+        <div>
+          <strong>Losses</strong>
+          <span id="losses-count">0</span>
+        </div>
+      </section>
+
+      <section class="controls">
+        <input id="opponent-name" type="text" placeholder="Opponent username" />
+        <button id="add-win" type="button">Add Win</button>
+        <button id="add-loss" type="button">Add Loss</button>
+        <button id="clear-history" type="button">Clear History</button>
+      </section>
+
+      <table class="history-table">
+        <thead>
+          <tr>
+            <th>Result</th>
+            <th>Opponent</th>
+            <th>When</th>
+          </tr>
+        </thead>
+        <tbody id="history-rows"></tbody>
+      </table>
+
+      <div id="empty-state" class="empty-state">No match history yet. Add a win or loss to start tracking.</div>
+    </main>
+
+    <script is:inline type="module">
+      import { initMatchHistory } from '../scripts/matchHistory.ts';
+      initMatchHistory();
+    </script>
+  </body>
+</html>
