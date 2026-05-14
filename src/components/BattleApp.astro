@@ -1,0 +1,241 @@
+---
+import GameOverScreen from './GameOverScreen.astro';
+---
+
+<div class="battle-app">
+  <section class="battle-controls">
+    <div class="battle-inputs">
+      <label>
+        Player 1
+        <input id="username-1" type="text" placeholder="GITHUB WARRIOR" />
+      </label>
+      <label>
+        Player 2
+        <input id="username-2" type="text" placeholder="CYBER CHAMPION" />
+      </label>
+    </div>
+
+    <div class="battle-buttons">
+      <button id="start-battle" type="button">START BATTLE</button>
+      <button id="next-round" type="button" disabled>NEXT ROUND</button>
+    </div>
+
+    <div class="battle-status">
+      <div>Round: <span id="round-counter">0</span></div>
+      <div>Status: <span id="battle-status">IDLE</span></div>
+    </div>
+  </section>
+
+  <section class="battle-arena">
+    <div class="player-card" id="player-1-card">
+      <h2>PLAYER 1</h2>
+      <div class="health-bar">
+        <div class="health-fill" id="player-1-health" style="width: 100%"></div>
+      </div>
+      <div class="player-meta">
+        <span id="player-1-name">READY</span>
+        <span id="player-1-health-text">100 / 100</span>
+      </div>
+    </div>
+
+    <div class="battle-log-card">
+      <h2>ARENA LOG</h2>
+      <div id="battle-log" class="battle-log"></div>
+    </div>
+
+    <div class="player-card" id="player-2-card">
+      <h2>PLAYER 2</h2>
+      <div class="health-bar">
+        <div class="health-fill" id="player-2-health" style="width: 100%"></div>
+      </div>
+      <div class="player-meta">
+        <span id="player-2-name">READY</span>
+        <span id="player-2-health-text">100 / 100</span>
+      </div>
+    </div>
+  </section>
+
+  <section id="game-over-wrapper" class="game-over-wrapper hidden">
+    <GameOverScreen
+      winner="UNKNOWN"
+      status="DRAW"
+      stats={[
+        { label: 'Rounds', value: 0 },
+        { label: 'Damage', value: 0 },
+        { label: 'Power-ups', value: 0 },
+        { label: 'Final Health', value: 0 },
+      ]}
+      playAgainId="play-again-button"
+      subtitle="THE ARENA REMEMBERS YOUR LAST BATTLE"
+    />
+  </section>
+</div>
+
+<script is:inline type="module">
+  import { initBattleApp } from '../scripts/battle.ts';
+  initBattleApp();
+</script>
+
+<style>
+.battle-app {
+  min-height: 100vh;
+  padding: 2rem;
+  display: grid;
+  gap: 1.5rem;
+  color: #e0e0ff;
+  font-family: 'Courier New', Courier, monospace;
+  background: radial-gradient(circle at top left, rgba(255, 0, 255, 0.12), transparent 20%),
+    radial-gradient(circle at bottom right, rgba(0, 255, 65, 0.12), transparent 25%),
+    #0a0a0f;
+}
+
+.battle-controls {
+  display: grid;
+  gap: 1rem;
+  border: 2px solid #1a1a3e;
+  padding: 1.5rem;
+  border-radius: 1.5rem;
+  background: rgba(13, 13, 26, 0.96);
+  box-shadow: 0 0 2rem rgba(255, 0, 255, 0.08);
+}
+
+.battle-inputs {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.battle-inputs label {
+  display: grid;
+  gap: 0.5rem;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  font-size: 0.85rem;
+}
+
+.battle-inputs input {
+  width: 100%;
+  padding: 0.85rem 1rem;
+  background: #101031;
+  border: 1px solid #3a3a5e;
+  color: #e0e0ff;
+  border-radius: 0.85rem;
+}
+
+.battle-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.battle-buttons button,
+.play-again-button {
+  padding: 1rem 1.75rem;
+  border: 2px solid #ff00ff;
+  border-radius: 999px;
+  background: #0d0d1a;
+  color: #e0e0ff;
+  cursor: pointer;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  box-shadow: 0 0 1.5rem rgba(255, 0, 255, 0.18);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.battle-buttons button:hover,
+.play-again-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 0 2.2rem rgba(255, 0, 255, 0.28);
+}
+
+.battle-status {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+}
+
+.battle-status div {
+  padding: 1rem;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 1rem;
+  background: #0f0f24;
+}
+
+.battle-arena {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 1rem;
+}
+
+.player-card,
+.battle-log-card {
+  padding: 1.25rem;
+  border: 2px solid #1a1a3e;
+  border-radius: 1.5rem;
+  background: rgba(13, 13, 26, 0.96);
+  box-shadow: 0 0 2rem rgba(0, 255, 65, 0.08);
+}
+
+.player-card h2,
+.battle-log-card h2 {
+  margin-top: 0;
+  font-family: 'Press Start 2P', monospace;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+}
+
+.health-bar {
+  margin: 1rem 0;
+  height: 1rem;
+  border: 1px solid #3a3a5e;
+  border-radius: 999px;
+  background: #09111f;
+  overflow: hidden;
+}
+
+.health-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #00ff41, #00ff41 50%, #56ff88);
+  animation: pulse 1.75s ease-in-out infinite;
+}
+
+.player-meta {
+  display: grid;
+  gap: 0.5rem;
+  color: #c0c0ff;
+}
+
+.battle-log {
+  min-height: 12rem;
+  background: #06111f;
+  border-radius: 1rem;
+  padding: 1rem;
+  overflow-y: auto;
+  color: #e0e0ff;
+}
+
+.battle-log div {
+  margin-bottom: 0.75rem;
+}
+
+.game-over-wrapper.hidden {
+  display: none;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 0.9;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+@media (max-width: 900px) {
+  .battle-arena {
+    grid-template-columns: 1fr;
+  }
+}
+</style>

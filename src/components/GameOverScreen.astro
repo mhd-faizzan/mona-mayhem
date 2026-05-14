@@ -22,20 +22,20 @@ const {
 } = Astro.props;
 ---
 
-<div class="game-over-screen">
+<div class="game-over-screen" id="game-over-screen">
   <div class="game-over-card">
     <div class="card-header">
       <span class="label">GAME OVER</span>
-      <h1>{status}</h1>
+      <h1 id="game-over-status">{status}</h1>
     </div>
 
     <div class="winner-panel">
       <p class="winner-caption">WINNER</p>
-      <p class="winner-name">{winner}</p>
-      <p class="winner-subtitle">{subtitle}</p>
+      <p id="game-over-winner" class="winner-name">{winner}</p>
+      <p id="game-over-subtitle" class="winner-subtitle">{subtitle}</p>
     </div>
 
-    <div class="stat-grid">
+    <div id="game-over-stats" class="stat-grid">
       {stats.map((stat) => (
         <div class="stat-item">
           <span class="stat-name">{stat.label}</span>

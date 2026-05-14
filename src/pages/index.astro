@@ -1,5 +1,5 @@
 ---
-
+import BattleApp from '../components/BattleApp.astro';
 ---
 
 <html lang="en">
@@ -11,8 +11,11 @@
 		<title>Mona Mayhem</title>
 	</head>
 	<body>
-		<h1>Mona Mayhem</h1>
-		<p>Welcome to Mona Mayhem! Time to build a GitHub Contribution Battle Arena.</p>
-		<p><a href="/history">View Match History</a></p>
+		<main>
+			<h1>Mona Mayhem</h1>
+			<p>GitHub warriors clash in the Contribution Arena.</p>
+			<p><a href="/history">View Battle Chronicles</a></p>
+			<BattleApp />
+		</main>
 	</body>
 </html>
